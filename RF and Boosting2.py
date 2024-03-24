@@ -7,11 +7,11 @@ from sklearn.preprocessing import LabelEncoder
 # Load the cleaned data
 data = pd.read_csv('cleaned_data.csv')
 
-# Assuming 'GenHealth' is your target variable
+# Set 'GenHealth' is your target variable
 X = data.drop('GenHealth', axis=1)
 y = data['GenHealth']
 
-# If 'GenHealth' is categorical, ensure it's encoded as such
+# Ensure 'GenHealth' is encoded as categorical
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
 

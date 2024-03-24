@@ -1,4 +1,5 @@
 import pandas as pd
+from scipy.stats import zscore
 
 # Read XPT file
 df = pd.read_sas('LLCP2022.XPT ', format='xport')
@@ -42,6 +43,7 @@ print(nan_counts)
 data_cleaned = data.dropna(subset=['SmokeStatus', 'HeartDisease', 'BMI'])
 print(data_cleaned.shape)
 
+
 # Counting values out of the specified range in the AlcoholIntake column
 out_of_range_count = ((data['AlcoholIntake'] > 98999) | (data['AlcoholIntake'] == 99900)).sum()
 
@@ -67,9 +69,6 @@ outliers_mask = (z_scores.abs() > 3).any(axis=1)
 
 # Remove rows that have outliers in any column
 data_no_outliers = data_filtered[~outliers_mask]
-
-print(f"Original data size: {data_filtered.shape}")
-print(f"Data size after removing outliers in any column: {data_no_outliers.shape}")
 
 # Rename the DataFrame
 cleaned_data = data_no_outliers

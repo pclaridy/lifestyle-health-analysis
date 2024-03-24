@@ -8,11 +8,11 @@ from scipy.stats import randint, uniform
 # Load the cleaned data
 data = pd.read_csv('cleaned_data.csv')
 
-# Assuming 'GenHealth' is your target variable
+# Set 'GenHealth' is your target variable
 X = data.drop('GenHealth', axis=1)
 y = data['GenHealth']
 
-# Encode 'GenHealth' if it's categorical
+# Ensure 'GenHealth' is encoded as categorical
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
 
