@@ -18,8 +18,6 @@ The analysis is based on the [2022 Behavioral Risk Factor Surveillance System (B
 - [Methodology](#methodology)
 - [Findings](#findings)
 - [Conclusion](#conclusion)
-- [How to Use](#how-to-use)
-- [Dependencies](#dependencies)
 - [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
@@ -64,14 +62,6 @@ The analysis demonstrates significant correlations between lifestyle factors and
 ## Conclusion
 
 The findings highlight the critical role of lifestyle choices on general health and showcase the capability of machine learning models to forecast health outcomes. Insights from this study provide a solid foundation for designing health interventions aimed at enhancing general well-being.
-
-## How to Use
-
-This repository contains scripts for data processing, model development, and analysis. Follow the comments within each script for guidelines on replication or application to similar datasets.
-
-## Dependencies
-
-Project dependencies include Python 3.x and several libraries such as Pandas, Scikit-learn, and Matplotlib. Ensure these libraries are installed to run the project scripts successfully.
 
 ## Contributing
 
