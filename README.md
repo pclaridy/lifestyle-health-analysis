@@ -14,7 +14,7 @@
 ---
 
 ## **1. Problem Statement**  
-This project explores how behavioral and demographic factors influence individuals' self-reported health status. Using survey data from the CDC's BRFSS program, the analysis aims to predict whether individuals rate their general health as poor or good based on lifestyle factors such as physical activity, chronic conditions, alcohol use, and smoking. The objective is to uncover interpretable patterns that can inform healthcare strategy and outreach.
+Understanding what drives individuals to report poor general health is critical for designing effective public health interventions and outreach strategies. This project aims to develop predictive models that classify self-reported general health status based on behavioral, demographic, and lifestyle factors using survey data from the CDC’s Behavioral Risk Factor Surveillance System (BRFSS). Features such as physical activity, chronic conditions, alcohol consumption, and smoking habits are analyzed to uncover which patterns most strongly correlate with poor health perceptions. By focusing on both model accuracy and interpretability, the analysis supports data-driven public health planning that can guide early intervention efforts and resource allocation.
 
 ---
 
