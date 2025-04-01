@@ -1,78 +1,143 @@
-# Lifestyle Factors and General Health: A Predictive Analysis
+# **Lifestyle Factors and General Health: Predicting Wellness Through Behavioral Data**
 
-## Description
+## **Table of Contents**
+1. [Problem Statement](#1-problem-statement)  
+2. [Data Source](#2-data-source)  
+3. [Data Cleaning & Preprocessing](#3-data-cleaning--preprocessing)  
+4. [Exploratory Data Analysis (EDA)](#4-exploratory-data-analysis-eda)  
+5. [Modeling Approach](#5-modeling-approach)  
+6. [Evaluation Metrics](#6-evaluation-metrics)  
+7. [Outcome](#7-outcome)  
+8. [Tools Used](#8-tools-used)  
+9. [Business Impact / Use Case](#9-business-impact--use-case)
 
-This project investigates the relationship between various lifestyle factors and self-assessed general health status using the comprehensive 2022 Behavioral Risk Factor Surveillance System (BRFSS) dataset. Key aspects of the project include comprehensive dataset analysis, rigorous data preprocessing, the application of predictive models, elaborate visualizations, and strategic health insights.
+---
 
-## Data Source
+## **1. Problem Statement**  
+This project explores how behavioral and demographic factors influence individuals' self-reported health status. Using survey data from the CDC's BRFSS program, the analysis aims to predict whether individuals rate their general health as poor or good based on lifestyle factors such as physical activity, chronic conditions, alcohol use, and smoking. The objective is to uncover interpretable patterns that can inform healthcare strategy and outreach.
 
-The analysis is based on the [2022 Behavioral Risk Factor Surveillance System (BRFSS) dataset](https://www.cdc.gov/brfss/annual_data/annual_2022.html), provided by the Centers for Disease Control and Prevention (CDC). This dataset includes responses from a wide cross-section of the population across the United States and its territories.
+---
 
-## Table of Contents
+## **2. Data Source**  
+The dataset is sourced from the [2022 Behavioral Risk Factor Surveillance System (BRFSS)](https://www.cdc.gov/brfss/annual_data/annual_2022.html), maintained by the CDC. The dataset includes over 400,000 survey responses covering adults across the United States and its territories. Variables used in this project include:
 
-- [Description](#description)
-- [Data Source](#data-source)
-- [Installation](#installation)
-- [Repository Structure](#repository-structure)
-- [Running the Code](#running-the-code)
-- [Methodology](#methodology)
-- [Findings](#findings)
-- [Conclusion](#conclusion)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
+- General health status (target)  
+- Smoking status  
+- Alcohol intake  
+- Physical activity  
+- Chronic conditions (asthma, heart disease)  
+- Body Mass Index (BMI)  
+- Demographics (age, race, gender, education, income)
 
-## Installation
+---
 
-To set up the project environment and run the analysis:
+## **3. Data Cleaning & Preprocessing**  
+The data was processed using the following pipeline:
 
-```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/general-health-lifestyle-factors
-cd general-health-lifestyle-factors
-pip install -r requirements.txt
-```
-## Repository Structure
+- Extracted features of interest from `.XPT` format  
+- Renamed columns for interpretability  
+- Removed missing values and invalid ranges  
+- Applied z-score based outlier removal  
+- Mapped categorical values into interpretable labels  
+- Filtered extreme alcohol consumption outliers  
+- Encoded variables numerically for modeling  
+- Split data into training and test sets
 
-- `README.md`: Provides an overview and instructions for the project.
-- `Data Cleaning.py`: Contains the data cleaning and preprocessing steps.
-- `Baseline Models.py`: Script for developing baseline predictive models.
-- `RF and Boosting.py`: Implements the initial Random Forest and Gradient Boosting models.
-- `RF and Boosting2.py`: Second iteration of tuning for Random Forest and Gradient Boosting models.
-- `RF and Boosting3.py`: Final iteration for advanced tuning and evaluation of the models.
-- `Paper.pdf`: The comprehensive research paper detailing background, methodology, analysis, and conclusions.
+The cleaned dataset was saved and used consistently throughout model development.
 
-## Running the Code
+---
 
-1. Clone this repository to your local machine.
-2. Install the required Python packages using: `pip install -r requirements.txt`.
-3. Execute the Python scripts in the following sequence to replicate the analysis:
-   - `python "Data Cleaning.py"`: Cleans and prepares the dataset for analysis.
-   - `python "Baseline Models.py"`: Develops and evaluates baseline predictive models.
-   - `python "RF and Boosting.py"`: Applies and evaluates the initial Random Forest and Gradient Boosting models.
-   - For further tuning and evaluation of the models, run `python "RF and Boosting2.py"` and `python "RF and Boosting3.py"` as needed.
+## **4. Exploratory Data Analysis (EDA)**  
+Exploratory insights included:
 
-## Methodology
+- Distribution checks across the target variable  
+- Summary statistics of predictors  
+- Correlation analysis of numerical features  
+- Balance checks between class groups  
 
-The project employs comprehensive statistical analysis and data mining techniques such as Regression Analysis, Decision Trees, Random Forest, and Gradient Boosting to predict general health outcomes based on lifestyle factors. Detailed methodologies including data cleaning, preprocessing, and model development are extensively documented within the paper and corresponding Python scripts.
+These steps guided the selection of predictive features and preprocessing strategies. No visual elements were produced for this project.
 
-## Findings
+---
 
-The analysis demonstrates significant correlations between lifestyle factors and self-assessed general health, emphasizing the potential of Random Forest and Gradient Boosting models in public health strategies. The tuned Gradient Boosting model, with an accuracy of 85.79%, effectively predicts general health status, underscoring the impact of lifestyle factors.
+## **5. Modeling Approach**
 
-## Conclusion
+The project employed a two-phase modeling strategy:
 
-The findings highlight the critical role of lifestyle choices on general health and showcase the capability of machine learning models to forecast health outcomes. Insights from this study provide a solid foundation for designing health interventions aimed at enhancing general well-being.
+### **Baseline Models**
+- **K-Nearest Neighbors (KNN)**  
+- **Logistic Regression**  
+- **Decision Tree**
 
-## Contributing
+These models provided quick, interpretable results and established a baseline for performance comparison.
 
-Contributions, suggestions, and feedback are welcome. Please feel free to fork the repository, make changes, and submit pull requests.
+### **Advanced Models**
+- **Random Forest Classifier**  
+- **Gradient Boosting Classifier**
 
-## License
+Each model was initially trained with default parameters, followed by extensive hyperparameter tuning.
 
-This project is released under the MIT License. Please refer to the LICENSE file for more details.
+### **Tuning Approach**
+Used a combination of GridSearchCV and RandomizedSearchCV to tune:
 
-## Acknowledgments
+- `n_estimators`  
+- `max_depth`  
+- `min_samples_split`  
+- `min_samples_leaf`  
+- `learning_rate`  
+- `max_features`
 
-- Georgia Institute of Technology for providing the educational platform.
-- Centers for Disease Control and Prevention (CDC) for making the BRFSS dataset publicly available.
+Scripts were modular, and tuning iterations were saved in sequenced files (`RF and Boosting.py`, `RF and Boosting2.py`, `RF and Boosting3.py`).
 
+---
+
+## **6. Evaluation Metrics**
+
+All models were evaluated using:
+
+- **Accuracy**  
+- **Precision (Weighted)**  
+- **Recall (Weighted)**  
+- **F1 Score (Weighted)**
+
+The top-performing models — Gradient Boosting and Random Forest — were compared across these metrics before and after tuning.
+
+---
+
+## **7. Outcome**
+
+| Model                  | Accuracy (Pre-Tuning) | Accuracy (Post-Tuning) |
+|------------------------|-----------------------|-------------------------|
+| K-Nearest Neighbors    | 84.22%                | —                       |
+| Logistic Regression    | 85.34%                | —                       |
+| Decision Tree          | 81.15%                | —                       |
+| Random Forest          | 83.53%                | 85.64%                  |
+| Gradient Boosting      | 85.61%                | **85.79%**              |
+
+The best performing model was the tuned **Gradient Boosting Classifier**, which achieved 85.79% accuracy and consistently strong weighted precision and recall. This performance confirms the benefit of ensemble learning in modeling lifestyle-related health outcomes.
+
+---
+
+## **8. Tools Used**
+
+- **Languages**: Python  
+- **Libraries**: pandas, scikit-learn, numpy  
+- **Modeling**: KNN, Logistic Regression, Decision Tree, Random Forest, Gradient Boosting  
+- **Tuning**: GridSearchCV, RandomizedSearchCV  
+- **Preprocessing**: Label encoding, z-score filtering, stratified data splitting  
+- **Environment**: Local Python environment with modular scripts  
+
+**Documentation & Reporting**:
+- A comprehensive research paper (`Paper.pdf`) accompanies this project. It outlines the background, methodology, modeling strategies, and evaluation results.
+
+---
+
+## **9. Business Impact / Use Case**
+
+The ability to predict health outcomes using lifestyle data enables:
+
+- **Healthcare organizations** to identify at-risk populations  
+- **Public health campaigns** to target interventions based on behavioral profiles  
+- **Insurance providers** to offer proactive wellness strategies  
+- **Policy developers** to explore how lifestyle data can inform community health investments  
+
+This model demonstrates how machine learning can contribute to cost-effective and targeted public health responses.
