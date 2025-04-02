@@ -14,92 +14,93 @@
 ---
 
 ## **1. Problem Statement**  
-Understanding what drives individuals to report poor general health is critical for designing effective public health interventions and outreach strategies. This project aims to develop predictive models that classify self-reported general health status based on behavioral, demographic, and lifestyle factors using survey data from the CDC’s Behavioral Risk Factor Surveillance System (BRFSS). Features such as physical activity, chronic conditions, alcohol consumption, and smoking habits are analyzed to uncover which patterns most strongly correlate with poor health perceptions. By focusing on both model accuracy and interpretability, the analysis supports data-driven public health planning that can guide early intervention efforts and resource allocation.
+Understanding what drives individuals to report poor general health is critical for designing effective public health interventions and outreach strategies. This project builds predictive models to classify self-reported general health status based on behavioral, demographic, and lifestyle factors using survey data from the CDC’s Behavioral Risk Factor Surveillance System (BRFSS). Features such as physical activity, chronic conditions, alcohol consumption, and smoking habits are analyzed to uncover which patterns most strongly correlate with health perceptions.
+
+This study focuses on general health as the response variable rather than a specific disease like heart disease. The choice allows for a broader understanding of health and captures the cumulative impact of lifestyle. General health ratings are valuable indicators of underlying chronic issues, perceived wellness, and future health risks. If someone exhibits a certain combination of lifestyle behaviors and demographics, the model can predict how they’re likely to rate their general health. That kind of insight helps identify at-risk groups and supports more proactive, population-level health planning.
 
 ---
 
 ## **2. Data Source**  
-The dataset is sourced from the [2022 Behavioral Risk Factor Surveillance System (BRFSS)](https://www.cdc.gov/brfss/annual_data/annual_2022.html), maintained by the CDC. The dataset includes over 400,000 survey responses covering adults across the United States and its territories. Variables used in this project include:
+The dataset comes from the [2022 Behavioral Risk Factor Surveillance System (BRFSS)](https://www.cdc.gov/brfss/annual_data/annual_2022.html), maintained by the CDC. It includes over 400,000 survey responses collected across the United States and its territories. For this project, the selected variables include:
 
 - General health status (target)  
+- Physical activity  
 - Smoking status  
 - Alcohol intake  
-- Physical activity  
-- Chronic conditions (asthma, heart disease)  
+- Presence of asthma or heart disease  
 - Body Mass Index (BMI)  
-- Demographics (age, race, gender, education, income)
+- Demographics like age, gender, race, income, and education level
+
+Cleaned dataset available here: [cleaned_data.csv](https://github.com/pclaridy/lifestyle-health-analysis/blob/main/cleaned_data.csv)
 
 ---
 
 ## **3. Data Cleaning & Preprocessing**  
-The data was processed using the following pipeline:
+Steps in the data pipeline included:
 
-- Extracted features of interest from `.XPT` format  
-- Renamed columns for interpretability  
-- Removed missing values and invalid ranges  
-- Applied z-score based outlier removal  
-- Mapped categorical values into interpretable labels  
-- Filtered extreme alcohol consumption outliers  
-- Encoded variables numerically for modeling  
-- Split data into training and test sets
+- Extracting features of interest from the raw `.XPT` file  
+- Renaming columns for clarity  
+- Dropping missing values and filtering invalid entries  
+- Removing outliers using z-scores  
+- Encoding categorical variables for modeling  
+- Splitting the cleaned dataset into training and test sets
 
-The cleaned dataset was saved and used consistently throughout model development.
+These steps ensured consistency and model-readiness across all phases of analysis.
 
 ---
 
 ## **4. Exploratory Data Analysis (EDA)**  
-Exploratory insights included:
+Exploratory analysis included:
 
-- Distribution checks across the target variable  
-- Summary statistics of predictors  
-- Correlation analysis of numerical features  
-- Balance checks between class groups  
+- Examining class balance in the target variable  
+- Summary statistics across features  
+- Correlation checks  
+- Initial insights into feature relationships with general health
 
-These steps guided the selection of predictive features and preprocessing strategies. No visual elements were produced for this project.
+This phase helped identify which variables were most likely to influence the model and where to focus feature selection efforts. No visuals were included in this version of the project.
 
 ---
 
 ## **5. Modeling Approach**
 
-The project employed a two-phase modeling strategy:
+The project followed a two-phase modeling strategy:
 
 ### **Baseline Models**
-- **K-Nearest Neighbors (KNN)**  
-- **Logistic Regression**  
-- **Decision Tree**
+- K-Nearest Neighbors (KNN)  
+- Logistic Regression  
+- Decision Tree  
 
-These models provided quick, interpretable results and established a baseline for performance comparison.
+These models offered quick insights and established a reference point for performance.
 
 ### **Advanced Models**
-- **Random Forest Classifier**  
-- **Gradient Boosting Classifier**
+- Random Forest  
+- Gradient Boosting  
 
-Each model was initially trained with default parameters, followed by extensive hyperparameter tuning.
+Both were tuned using GridSearchCV and RandomizedSearchCV to improve predictive accuracy. Key parameters tuned included:
 
-### **Tuning Approach**
-Used a combination of GridSearchCV and RandomizedSearchCV to tune:
+- n_estimators  
+- max_depth  
+- min_samples_split  
+- min_samples_leaf  
+- learning_rate  
+- max_features  
 
-- `n_estimators`  
-- `max_depth`  
-- `min_samples_split`  
-- `min_samples_leaf`  
-- `learning_rate`  
-- `max_features`
-
-Scripts were modular, and tuning iterations were saved in sequenced files (`RF and Boosting.py`, `RF and Boosting2.py`, `RF and Boosting3.py`).
+Scripts were modular and documented for reproducibility. Available here:
+- [RF and Boosting.py](https://github.com/pclaridy/lifestyle-health-analysis/blob/main/RF%20and%20Boosting.py)  
+- [RF and Boosting2.py](https://github.com/pclaridy/lifestyle-health-analysis/blob/main/RF%20and%20Boosting2.py)  
+- [RF and Boosting3.py](https://github.com/pclaridy/lifestyle-health-analysis/blob/main/RF%20and%20Boosting3.py)
 
 ---
 
-## **6. Evaluation Metrics**
+## **6. Evaluation Metrics**  
+To compare model performance, the following metrics were used:
 
-All models were evaluated using:
+- Accuracy  
+- Precision (weighted)  
+- Recall (weighted)  
+- F1 Score (weighted)  
 
-- **Accuracy**  
-- **Precision (Weighted)**  
-- **Recall (Weighted)**  
-- **F1 Score (Weighted)**
-
-The top-performing models — Gradient Boosting and Random Forest — were compared across these metrics before and after tuning.
+These provided a balanced view of how well each model handled class predictions, especially with imbalanced labels.
 
 ---
 
@@ -113,7 +114,9 @@ The top-performing models — Gradient Boosting and Random Forest — were compa
 | Random Forest          | 83.53%                | 85.64%                  |
 | Gradient Boosting      | 85.61%                | **85.79%**              |
 
-The best performing model was the tuned **Gradient Boosting Classifier**, which achieved 85.79% accuracy and consistently strong weighted precision and recall. This performance confirms the benefit of ensemble learning in modeling lifestyle-related health outcomes.
+The tuned Gradient Boosting model performed the best, achieving 85.79% accuracy on the test set. This accuracy reflects the model’s ability to correctly predict how individuals rate their own general health using inputs such as physical activity, chronic conditions, BMI, and demographic data.
+
+In other words, the model can assess someone’s health perception based on lifestyle and background factors. That capability helps reveal how these variables work together to shape well-being and offers a practical approach to identifying groups that may need health interventions.
 
 ---
 
@@ -123,21 +126,21 @@ The best performing model was the tuned **Gradient Boosting Classifier**, which 
 - **Libraries**: pandas, scikit-learn, numpy  
 - **Modeling**: KNN, Logistic Regression, Decision Tree, Random Forest, Gradient Boosting  
 - **Tuning**: GridSearchCV, RandomizedSearchCV  
-- **Preprocessing**: Label encoding, z-score filtering, stratified data splitting  
-- **Environment**: Local Python environment with modular scripts  
+- **Preprocessing**: Label encoding, z-score filtering, stratified train/test split  
+- **Environment**: Local Python setup using modular scripts  
 
-**Documentation & Reporting**:
-- A comprehensive research paper (`Paper.pdf`) accompanies this project. It outlines the background, methodology, modeling strategies, and evaluation results.
+**Documentation**:  
+A full research paper is included: [Paper.pdf](https://github.com/pclaridy/lifestyle-health-analysis/blob/main/Paper.pdf)
 
 ---
 
 ## **9. Business Impact / Use Case**
 
-The ability to predict health outcomes using lifestyle data enables:
+This project demonstrates how lifestyle and demographic data can be used to predict health perceptions at the individual level. These predictions can guide:
 
-- **Healthcare organizations** to identify at-risk populations  
-- **Public health campaigns** to target interventions based on behavioral profiles  
-- **Insurance providers** to offer proactive wellness strategies  
-- **Policy developers** to explore how lifestyle data can inform community health investments  
+- Healthcare providers in early identification of at-risk patients  
+- Public health agencies in shaping community wellness campaigns  
+- Policy makers looking to invest in preventative care initiatives  
+- Insurance companies exploring personalized wellness strategies
 
-This model demonstrates how machine learning can contribute to cost-effective and targeted public health responses.
+The ability to model general health status from modifiable factors offers a powerful tool for improving population health. Insights like these can be used to develop interventions that are proactive, targeted, and informed by real-world data. They also highlight the broader implication that lifestyle choices play a major role in how people perceive their health, making general well-being a meaningful focus for public health strategy.
